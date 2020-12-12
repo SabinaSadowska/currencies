@@ -10,8 +10,8 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { makeStyles } from "@material-ui/core/styles";
 import "./currencies.css";
-import { ACTION_FETCH_DATA } from "../modules/currencies/currencies.action";
-import { selectAllState } from "../modules/currencies/currencies.selector";
+import { ACTION_FETCH_DATA } from "../../modules/currencies/currencies.action";
+import { selectAllState } from "../../modules/currencies/currencies.selector";
 
 function Currencies(props) {
   useEffect(() => {
@@ -34,6 +34,10 @@ function Currencies(props) {
   const classes = useStyles();
   const currencies = props.allCurrencies || [];
 
+  const addToFavorite = (event) => {
+    return console.log(event.currentTarget);
+  };
+
   return (
     <Grid xs={12} md={4} sm={4} lg={4} className="currencies">
       <Grid item xs={12} md={6}>
@@ -43,10 +47,14 @@ function Currencies(props) {
         <div className={classes.demo}>
           <List>
             {currencies.length
-              ? currencies[0].rates.map((el) => (
-                  <ListItem>
+              ? currencies[0].rates.map((el, idx) => (
+                  <ListItem key={idx}>
                     <ListItemSecondaryAction>
-                      <IconButton edge="end" aria-label="addToFavorite">
+                      <IconButton
+                        edge="end"
+                        aria-label={el.code}
+                        onClick={addToFavorite}
+                      >
                         <FavoriteIcon />
                       </IconButton>
                     </ListItemSecondaryAction>

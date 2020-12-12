@@ -1,5 +1,3 @@
-import Currencies from "../../components/Currencies";
-
 export const CURRENCIES_ACTION_TYPES = {
   ACTION_FETCH_DATA: "ACTION_FETCH_DATA",
   ACTION_FETCH_DATA_SUCCESS: "ACTION_FETCH_DATA_SUCCESS",
