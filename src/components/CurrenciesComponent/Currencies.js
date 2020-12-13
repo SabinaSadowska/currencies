@@ -11,6 +11,7 @@ import "./currencies.css";
 import {
   ACTION_FETCH_DATA,
   ACTION_ADD_TO_FAVORITES,
+  ACTION_DELETE_FROM_FAVOURITES,
 } from "../../modules/currencies/currencies.action";
 import {
   selectAllFavourites,
@@ -81,7 +82,12 @@ function Currencies(props) {
                 return checkType(favourites, element.code, element) ? (
                   <ListItem key={index}>
                     <ListItemSecondaryAction>
-                      <button data-code={element.code}>Delete</button>
+                      <button
+                        data-code={element.code}
+                        onClick={(event) => props.deleteFromFavourites(event)}
+                      >
+                        Delete
+                      </button>
                     </ListItemSecondaryAction>
                     <ListItemText primary={element.code} />
                     <ListItemText primary={element.mid} />
@@ -106,6 +112,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   addToFavorites: (event) => {
     dispatch(ACTION_ADD_TO_FAVORITES(event));
+  },
+  deleteFromFavourites: (event) => {
+    dispatch(ACTION_DELETE_FROM_FAVOURITES(event));
   },
 });
 

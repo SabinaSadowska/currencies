@@ -2,6 +2,7 @@ export const CURRENCIES_ACTION_TYPES = {
   ACTION_FETCH_DATA: "ACTION_FETCH_DATA",
   ACTION_FETCH_DATA_SUCCESS: "ACTION_FETCH_DATA_SUCCESS",
   ACTION_ADD_TO_FAVORITES: "ACTION_ADD_TO_FAVORITES",
+  ACTION_DELETE_FROM_FAVOURITES: "ACTION_DELETE_FROM_FAVOURITES",
 };
 
 export const ACTION_FETCH_DATA = () => {
@@ -24,6 +25,13 @@ export const ACTION_FETCH_DATA_SUCCESS = (currencies) => {
 export const ACTION_ADD_TO_FAVORITES = (event) => {
   return {
     type: CURRENCIES_ACTION_TYPES.ACTION_ADD_TO_FAVORITES,
+    value: event.target.dataset.code,
+  };
+};
+
+export const ACTION_DELETE_FROM_FAVOURITES = (event) => {
+  return {
+    type: CURRENCIES_ACTION_TYPES.ACTION_DELETE_FROM_FAVOURITES,
     value: event.target.dataset.code,
   };
 };
