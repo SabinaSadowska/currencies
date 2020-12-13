@@ -6,8 +6,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import { makeStyles } from "@material-ui/core/styles";
-import "./currencies.css";
+import "./currencies.sass";
 import {
   ACTION_FETCH_DATA,
   ACTION_ADD_TO_FAVORITES,
@@ -18,24 +17,16 @@ import {
   selectAllFavourites,
   selectAllCurrencies,
 } from "../../modules/currencies/currencies.selector";
+import "./currencies.sass";
 
 function Currencies(props) {
   useEffect(() => {
     props.actionFetchData();
   }, []);
 
-  const useStyles = makeStyles((theme) => ({
-    demo: {
-      backgroundColor: theme.palette.background.paper,
-    },
-    title: {
-      margin: theme.spacing(4, 0, 2),
-    },
-  }));
-
-  const classes = useStyles();
   const currencies = props.allCurrencies || [];
   const favourites = props.allFavourites;
+  console.log(favourites);
 
   const checkType = (data, code, element) => {
     return data[code] ? element : null;
@@ -60,23 +51,24 @@ function Currencies(props) {
   };
 
   return (
-    <Grid lg={12} md={12} sm={12} xs={12} className="currencies">
-      <Grid item xs={12} md={5} sm={5}>
-        <Typography variant="h6" className={classes.title}>
+    <Grid item lg={10} md={10} sm={12} xs={12} className="currencies">
+      <Grid item xs={12} md={5} sm={10}>
+        <Typography variant="h6" className="currencies__title">
           Currencies
         </Typography>
-        <div className={classes.demo}>
-          <List>
+        <div>
+          <List className="currencies__list">
             {currencies.length
               ? currencies[0].rates.map((el, idx) => (
                   <ListItem key={idx}>
                     {checkType(favourites, el.code, el) ? null : (
                       <ListItemSecondaryAction>
                         <button
+                          className="currencies__button"
                           data-code={el.code}
                           onClick={(event) => props.addToFavorites(event)}
                         >
-                          Add
+                          Add to favourites
                         </button>
                       </ListItemSecondaryAction>
                     )}
@@ -90,18 +82,19 @@ function Currencies(props) {
         </div>
       </Grid>
 
-      <Grid item xs={12} md={5}>
-        <Typography variant="h6" className={classes.title}>
+      <Grid item xs={12} md={3} sm={10}>
+        <Typography variant="h6" className="currencies__title --red">
           Favourites
         </Typography>
-        <div className={classes.demo}>
-          <List>
+        <div>
+          <List className="currencies__list">
             {currencies.length &&
               currencies[0].rates.map((element, index) => {
                 return checkType(favourites, element.code, element) ? (
                   <ListItem key={index}>
                     <ListItemSecondaryAction>
                       <button
+                        className="currencies__button --delete"
                         data-code={element.code}
                         onClick={(event) =>
                           onAlert(
@@ -119,16 +112,19 @@ function Currencies(props) {
                   </ListItem>
                 ) : null;
               })}
-            <button
-              onClick={() =>
-                onAlertDeleteAll(
-                  props.deleteAllFavourites,
-                  "Delete all currencies?"
-                )
-              }
-            >
-              delete all
-            </button>
+            {Object.keys(favourites).length ? (
+              <button
+                className="currencies__button --deleteAll"
+                onClick={() =>
+                  onAlertDeleteAll(
+                    props.deleteAllFavourites,
+                    "Delete all currencies?"
+                  )
+                }
+              >
+                Delete all
+              </button>
+            ) : null}
           </List>
         </div>
       </Grid>
