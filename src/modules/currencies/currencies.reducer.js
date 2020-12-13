@@ -2,6 +2,7 @@ import { CURRENCIES_ACTION_TYPES } from "./currencies.action";
 
 const INITIAL_STATE = {
   currencies: [],
+  favourites: {},
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -13,6 +14,16 @@ export default (state = INITIAL_STATE, action) => {
       return (state = {
         ...state,
         currencies: action.value || [],
+      });
+
+    case CURRENCIES_ACTION_TYPES.ACTION_ADD_TO_FAVORITES:
+      return (state = {
+        ...state,
+        currencies: [...state.currencies],
+        favourites: {
+          ...state.favourites,
+          [action.value]: true,
+        },
       });
 
     default:

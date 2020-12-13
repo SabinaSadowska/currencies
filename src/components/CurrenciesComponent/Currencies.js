@@ -8,8 +8,14 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import { makeStyles } from "@material-ui/core/styles";
 import "./currencies.css";
-import { ACTION_FETCH_DATA } from "../../modules/currencies/currencies.action";
-import { selectAllState } from "../../modules/currencies/currencies.selector";
+import {
+  ACTION_FETCH_DATA,
+  ACTION_ADD_TO_FAVORITES,
+} from "../../modules/currencies/currencies.action";
+import {
+  selectAllFavourites,
+  selectAllCurrencies,
+} from "../../modules/currencies/currencies.selector";
 
 function Currencies(props) {
   useEffect(() => {
@@ -17,10 +23,6 @@ function Currencies(props) {
   }, []);
 
   const useStyles = makeStyles((theme) => ({
-    root: {
-      flexGrow: 1,
-      maxWidth: 752,
-    },
     demo: {
       backgroundColor: theme.palette.background.paper,
     },
@@ -31,25 +33,15 @@ function Currencies(props) {
 
   const classes = useStyles();
   const currencies = props.allCurrencies || [];
-
-  const addToFavorite = (event) => {
-    event.preventDefault();
-    return console.log(event.target.dataset.code);
-  };
-
-  const fav = {
-    USD: true,
-    EUR: true,
-    GBP: true,
-  };
+  const favourites = props.allFavourites;
 
   const checkType = (data, code, element) => {
     return data[code] ? element : null;
   };
 
   return (
-    <Grid xs={12} md={4} sm={4} lg={4} className="currencies">
-      <Grid item xs={12} md={6}>
+    <Grid lg={12} md={12} sm={12} xs={12} row className="currencies">
+      <Grid item xs={12} md={5} sm={5}>
         <Typography variant="h6" className={classes.title}>
           Currencies
         </Typography>
@@ -58,14 +50,17 @@ function Currencies(props) {
             {currencies.length
               ? currencies[0].rates.map((el, idx) => (
                   <ListItem key={idx}>
-                    <ListItemSecondaryAction>
-                      <button
-                        data-code={el.code}
-                        onClick={(event) => addToFavorite(event)}
-                      >
-                        Add
-                      </button>
-                    </ListItemSecondaryAction>
+                    {checkType(favourites, el.code, el) ? null : (
+                      <ListItemSecondaryAction>
+                        <button
+                          data-code={el.code}
+                          onClick={(event) => props.addToFavorites(event)}
+                        >
+                          Add
+                        </button>
+                      </ListItemSecondaryAction>
+                    )}
+
                     <ListItemText primary={el.code} />
                     <ListItemText primary={el.mid} />
                   </ListItem>
@@ -75,23 +70,18 @@ function Currencies(props) {
         </div>
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12} md={5}>
         <Typography variant="h6" className={classes.title}>
-          Favorites
+          Favourites
         </Typography>
         <div className={classes.demo}>
           <List>
             {currencies.length &&
               currencies[0].rates.map((element, index) => {
-                return checkType(fav, element.code, element) ? (
+                return checkType(favourites, element.code, element) ? (
                   <ListItem key={index}>
                     <ListItemSecondaryAction>
-                      <button
-                        data-code={element.code}
-                        onClick={(event) => addToFavorite(event)}
-                      >
-                        Delete
-                      </button>
+                      <button data-code={element.code}>Delete</button>
                     </ListItemSecondaryAction>
                     <ListItemText primary={element.code} />
                     <ListItemText primary={element.mid} />
@@ -106,12 +96,16 @@ function Currencies(props) {
 }
 
 const mapStateToProps = (state) => ({
-  allCurrencies: selectAllState(state),
+  allCurrencies: selectAllCurrencies(state),
+  allFavourites: selectAllFavourites(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   actionFetchData: () => {
     dispatch(ACTION_FETCH_DATA());
+  },
+  addToFavorites: (event) => {
+    dispatch(ACTION_ADD_TO_FAVORITES(event));
   },
 });
 
