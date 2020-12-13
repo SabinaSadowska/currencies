@@ -41,8 +41,26 @@ function Currencies(props) {
     return data[code] ? element : null;
   };
 
+  const onAlert = (event, fn, txt) => {
+    // eslint-disable-next-line no-restricted-globals
+    if (confirm(txt)) {
+      return fn(event);
+    } else {
+      return;
+    }
+  };
+
+  const onAlertDeleteAll = (fn, txt) => {
+    // eslint-disable-next-line no-restricted-globals
+    if (confirm(txt)) {
+      return fn();
+    } else {
+      return;
+    }
+  };
+
   return (
-    <Grid lg={12} md={12} sm={12} xs={12} row className="currencies">
+    <Grid lg={12} md={12} sm={12} xs={12} className="currencies">
       <Grid item xs={12} md={5} sm={5}>
         <Typography variant="h6" className={classes.title}>
           Currencies
@@ -85,7 +103,13 @@ function Currencies(props) {
                     <ListItemSecondaryAction>
                       <button
                         data-code={element.code}
-                        onClick={(event) => props.deleteFromFavourites(event)}
+                        onClick={(event) =>
+                          onAlert(
+                            event,
+                            props.deleteFromFavourites,
+                            "Delete currency?"
+                          )
+                        }
                       >
                         Delete
                       </button>
@@ -95,7 +119,16 @@ function Currencies(props) {
                   </ListItem>
                 ) : null;
               })}
-            <button onClick={props.deleteAllFavourites}>delete all</button>
+            <button
+              onClick={() =>
+                onAlertDeleteAll(
+                  props.deleteAllFavourites,
+                  "Delete all currencies?"
+                )
+              }
+            >
+              delete all
+            </button>
           </List>
         </div>
       </Grid>
