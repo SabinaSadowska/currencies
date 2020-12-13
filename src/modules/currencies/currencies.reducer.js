@@ -36,6 +36,13 @@ export default (state = INITIAL_STATE, action) => {
         },
       });
 
+    case CURRENCIES_ACTION_TYPES.ACTION_DELETE_ALL_FAVOURITES:
+      return (state = {
+        ...state,
+        currencies: [...state.currencies],
+        favourites: {},
+      });
+
     default:
       return state;
   }

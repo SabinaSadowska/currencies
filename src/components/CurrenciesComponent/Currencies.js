@@ -12,6 +12,7 @@ import {
   ACTION_FETCH_DATA,
   ACTION_ADD_TO_FAVORITES,
   ACTION_DELETE_FROM_FAVOURITES,
+  ACTION_DELETE_ALL_FAVOURITES,
 } from "../../modules/currencies/currencies.action";
 import {
   selectAllFavourites,
@@ -94,6 +95,7 @@ function Currencies(props) {
                   </ListItem>
                 ) : null;
               })}
+            <button onClick={props.deleteAllFavourites}>delete all</button>
           </List>
         </div>
       </Grid>
@@ -115,6 +117,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   deleteFromFavourites: (event) => {
     dispatch(ACTION_DELETE_FROM_FAVOURITES(event));
+  },
+  deleteAllFavourites: (event) => {
+    dispatch(ACTION_DELETE_ALL_FAVOURITES());
   },
 });
 
