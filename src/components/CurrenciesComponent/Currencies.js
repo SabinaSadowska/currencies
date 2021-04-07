@@ -26,7 +26,6 @@ function Currencies(props) {
 
   const currencies = props.allCurrencies || [];
   const favourites = props.allFavourites;
-  console.log(favourites);
 
   const checkType = (data, code, element) => {
     return data[code] ? element : null;
