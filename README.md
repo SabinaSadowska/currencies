@@ -15,4 +15,4 @@ Open [http://localhost:3000](http://localhost:3000) to view the app it in the br
 ### Technologies: React, Redux, Material UI, Sass
 
 
-Note: you can see in this repository there are 2 contributors, it is simply becasue I didn't know that git was using my second github account to push changes :) 
+Note: you can see in this repository there are 2 contributors, it is becasue I used my second account to push changes
